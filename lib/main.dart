@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:revision_transaction_user/models/transactions.dart';
+import 'package:revision_transaction_user/widgets/chart.dart';
 import 'package:revision_transaction_user/widgets/input_transactions.dart';
 import 'package:revision_transaction_user/widgets/list_transaction.dart';
 
@@ -59,6 +62,12 @@ class _MyHomeAppState extends State<MyHomeApp> {
         });
   }
 
+  List<Transaction> get _userTransaction {
+    return transactions.where((element) {
+      return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +78,9 @@ class _MyHomeAppState extends State<MyHomeApp> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            Text("Chart"),
+            Chart(
+              userTransaction: _userTransaction,
+            ),
             InputTransaction(addTransation: _addTransaction),
             ListTransactions(listTransactions: transactions),
           ],
