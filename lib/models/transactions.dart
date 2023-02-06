@@ -1,12 +1,12 @@
-class Transactions {
+class Transaction {
   String id;
   String title;
+  double amount;
   DateTime date;
-  double cost;
 
-  Transactions(
+  Transaction(
       {required this.id,
       required this.title,
-      required this.date,
-      required this.cost});
+      required this.amount,
+      required this.date});
 }

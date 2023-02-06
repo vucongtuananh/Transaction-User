@@ -3,32 +3,29 @@ import 'package:intl/intl.dart';
 import 'package:revision_transaction_user/models/transactions.dart';
 
 class ListTransactions extends StatelessWidget {
-  final List<Transactions> transactions;
-  const ListTransactions({super.key, required this.transactions});
+  final List<Transaction> listTransactions;
+  ListTransactions({super.key, required this.listTransactions});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        return Card(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: listTransactions.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: EdgeInsets.all(10),
             elevation: 5,
             child: ListTile(
               leading: CircleAvatar(
-                  child:
-                      FittedBox(child: Text("\$${transactions[index].cost}"))),
-              title: Text(
-                transactions[index].title,
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              subtitle: Text(
-                DateFormat('dd-MM-yyyy').format(transactions[index].date),
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-            ));
-      },
-    );
+                  child: FittedBox(
+                      child: Text(
+                          "\$${listTransactions[index].amount.toStringAsFixed(2)}"))),
+              title: Text(listTransactions[index].title),
+              subtitle:
+                  Text(DateFormat.E().format(listTransactions[index].date)),
+            ),
+          );
+        });
   }
 }
