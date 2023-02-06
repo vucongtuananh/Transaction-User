@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:revision_transaction_user/models/transactions.dart';
+import 'package:revision_transaction_user/widgets/chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> userTransaction;
@@ -22,13 +25,25 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get maxSpending {
+    return groupedTransactionValues.fold(0.0, (previousValue, element) {
+      return previousValue + (element['amount'] as double);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print(groupedTransactionValues);
     return Row(
-      children: [
-        Text("Hien Luong"),
-      ],
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: groupedTransactionValues.map((data) {
+        return ChartBar(
+            label: data['day'] as String,
+            spendingAmount: data['amount'] as double,
+            spendingPctOfTotal: maxSpending == 0
+                ? 0
+                : (data['amount'] as double) / maxSpending);
+      }).toList(),
     );
   }
 }

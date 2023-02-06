@@ -23,7 +23,7 @@ class ListTransactions extends StatelessWidget {
                           "\$${listTransactions[index].amount.toStringAsFixed(2)}"))),
               title: Text(listTransactions[index].title),
               subtitle:
-                  Text(DateFormat.E().format(listTransactions[index].date)),
+                  Text(DateFormat.yMMMd().format(listTransactions[index].date)),
             ),
           );
         });

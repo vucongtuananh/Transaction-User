@@ -19,6 +19,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Transactions App',
       home: MyHomeApp(),
+      theme: ThemeData(
+        primaryColor: Colors.purple,
+        textTheme: TextTheme(button: TextStyle(color: Colors.white)),
+      ),
     );
   }
 }
@@ -31,13 +35,7 @@ class MyHomeApp extends StatefulWidget {
 }
 
 class _MyHomeAppState extends State<MyHomeApp> {
-  List<Transaction> transactions = [
-    Transaction(
-        id: DateTime.now().toString(),
-        title: 'pen',
-        amount: 9.99,
-        date: DateTime.now()),
-  ];
+  List<Transaction> transactions = [];
 
   void _addTransaction(String titleTx, double amountTx) {
     final newTransaction = Transaction(
@@ -76,15 +74,17 @@ class _MyHomeAppState extends State<MyHomeApp> {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            Chart(
-              userTransaction: _userTransaction,
-            ),
-            InputTransaction(addTransation: _addTransaction),
-            ListTransactions(listTransactions: transactions),
-          ],
-        ),
+        child: transactions.isEmpty
+            ? Text("No transacions yet !!")
+            : Column(
+                children: [
+                  Chart(
+                    userTransaction: _userTransaction,
+                  ),
+                  // InputTransaction(addTransation: _addTransaction),
+                  ListTransactions(listTransactions: transactions),
+                ],
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showBottomSheet(context),

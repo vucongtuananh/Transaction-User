@@ -26,6 +26,7 @@ class _InputTransactionState extends State<InputTransaction> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         TextField(
           decoration: InputDecoration(label: Text("title")),
@@ -40,7 +41,25 @@ class _InputTransactionState extends State<InputTransaction> {
           controller: amountController,
           onSubmitted: (value) => submittedData(),
         ),
-        TextButton(onPressed: submittedData, child: Text("Add Transactions")),
+        Row(
+          children: [
+            Text("No Date Chosen !"),
+            TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Choose Date",
+                  style: TextStyle(color: Colors.purple),
+                ))
+          ],
+        ),
+        Container(
+            color: Theme.of(context).primaryColor,
+            child: TextButton(
+                onPressed: submittedData,
+                child: Text(
+                  "Add Transactions",
+                  style: Theme.of(context).textTheme.button,
+                ))),
       ],
     );
   }
