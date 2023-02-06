@@ -1,70 +1,61 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:revision_transaction_user/models/transactions.dart';
 import 'package:revision_transaction_user/widgets/input_transactions.dart';
 import 'package:revision_transaction_user/widgets/list_transaction.dart';
 
 void main() {
-  runApp(MyAppTest());
+  runApp(MyApp());
 }
 
-class MyAppTest extends StatelessWidget {
-  const MyAppTest({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Test',
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-        textTheme: const TextTheme(
-            headline1: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Colors.blue,
-            ),
-            subtitle1: TextStyle(color: Colors.grey, fontSize: 11)),
-      ),
-      home: MyTestHome(),
+      title: 'Transactions App',
+      home: MyHomeApp(),
     );
   }
 }
 
-class MyTestHome extends StatefulWidget {
-  MyTestHome({super.key});
+class MyHomeApp extends StatefulWidget {
+  MyHomeApp({super.key});
 
   @override
-  State<MyTestHome> createState() => _MyTestHomeState();
+  State<MyHomeApp> createState() => _MyHomeAppState();
 }
 
-class _MyTestHomeState extends State<MyTestHome> {
-  final List<Transactions> transactions = [
-    Transactions(
+class _MyHomeAppState extends State<MyHomeApp> {
+  List<Transaction> transactions = [
+    Transaction(
         id: DateTime.now().toString(),
-        title: 'New shoes',
-        date: DateTime.now(),
-        cost: 19.99),
+        title: 'pen',
+        amount: 9.99,
+        date: DateTime.now()),
   ];
 
-  void _addTransaction(String titleTx, double costTx) {
-    final newTx = Transactions(
+  void _addTransaction(String titleTx, double amountTx) {
+    final newTransaction = Transaction(
         id: DateTime.now().toString(),
         title: titleTx,
-        date: DateTime.now(),
-        cost: costTx);
+        amount: amountTx,
+        date: DateTime.now());
     setState(() {
-      transactions.add(newTx);
+      transactions.add(newTransaction);
     });
+    Navigator.pop(context);
   }
 
-  void _showBottomBoard() {
+  void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
-        builder: (context) {
+        builder: (_) {
           return GestureDetector(
-            onTap: () {},
-            child: InputTransactions(addTransaction: _addTransaction),
-          );
+              onTap: () {},
+              behavior: HitTestBehavior.opaque,
+              child: InputTransaction(addTransation: _addTransaction));
         });
   }
 
@@ -72,26 +63,20 @@ class _MyTestHomeState extends State<MyTestHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Revision Transactions'),
+        title: Text("Transactions User"),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            const Card(
-              elevation: 5,
-              child: Text('Chart'),
-            ),
-            InputTransactions(
-              addTransaction: _addTransaction,
-            ),
-            ListTransactions(transactions: transactions)
+            Text("Chart"),
+            InputTransaction(addTransation: _addTransaction),
+            ListTransactions(listTransactions: transactions),
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: _showBottomBoard,
+        onPressed: () => _showBottomSheet(context),
         child: Icon(Icons.add),
       ),
     );
