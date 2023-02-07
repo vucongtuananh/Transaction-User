@@ -37,12 +37,12 @@ class MyHomeApp extends StatefulWidget {
 class _MyHomeAppState extends State<MyHomeApp> {
   List<Transaction> transactions = [];
 
-  void _addTransaction(String titleTx, double amountTx) {
+  void _addTransaction(String titleTx, double amountTx, DateTime chosenDay) {
     final newTransaction = Transaction(
         id: DateTime.now().toString(),
         title: titleTx,
         amount: amountTx,
-        date: DateTime.now());
+        date: chosenDay);
     setState(() {
       transactions.add(newTransaction);
     });
@@ -74,17 +74,17 @@ class _MyHomeAppState extends State<MyHomeApp> {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: transactions.isEmpty
-            ? Text("No transacions yet !!")
-            : Column(
-                children: [
-                  Chart(
-                    userTransaction: _userTransaction,
-                  ),
-                  // InputTransaction(addTransation: _addTransaction),
-                  ListTransactions(listTransactions: transactions),
-                ],
-              ),
+        child: Column(
+          children: [
+            Chart(
+              userTransaction: _userTransaction,
+            ),
+            // InputTransaction(addTransation: _addTransaction),
+            transactions.isEmpty
+                ? Text("No transacions yet !!")
+                : ListTransactions(listTransactions: transactions),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showBottomSheet(context),
