@@ -4,7 +4,9 @@ import 'package:revision_transaction_user/models/transactions.dart';
 
 class ListTransactions extends StatelessWidget {
   final List<Transaction> listTransactions;
-  ListTransactions({super.key, required this.listTransactions});
+  final Function deleteTx;
+  ListTransactions(
+      {super.key, required this.listTransactions, required this.deleteTx});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,9 @@ class ListTransactions extends StatelessWidget {
               title: Text(listTransactions[index].title),
               subtitle:
                   Text(DateFormat.yMMMd().format(listTransactions[index].date)),
+              trailing: IconButton(
+                  onPressed: () => deleteTx(listTransactions[index].id),
+                  icon: const Icon(Icons.delete)),
             ),
           );
         });

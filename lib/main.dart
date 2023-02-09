@@ -49,6 +49,14 @@ class _MyHomeAppState extends State<MyHomeApp> {
     Navigator.pop(context);
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      transactions.removeWhere((element) {
+        return element.id == id;
+      });
+    });
+  }
+
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -82,7 +90,10 @@ class _MyHomeAppState extends State<MyHomeApp> {
             // InputTransaction(addTransation: _addTransaction),
             transactions.isEmpty
                 ? Text("No transacions yet !!")
-                : ListTransactions(listTransactions: transactions),
+                : ListTransactions(
+                    listTransactions: transactions,
+                    deleteTx: _deleteTransaction,
+                  ),
           ],
         ),
       ),
